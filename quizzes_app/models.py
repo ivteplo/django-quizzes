@@ -9,6 +9,10 @@ class User(AbstractUser):
     username = None
     USERNAME_FIELD = 'email'
 
+    # We will use just one field for user's name
+    first_name = None
+    last_name = None
+
     name = models.CharField(max_length=50)
     email = models.EmailField(primary_key=True, unique=True)
 

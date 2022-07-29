@@ -1,0 +1,54 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+form {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 16rem;
+}
+
+form > .error-alert {
+    padding: 0.5rem 1rem;
+    border-radius: var(--corner-radius);
+
+    color: var(--on-error);
+    background-color: var(--error);
+
+    margin-bottom: 1rem;
+}
+
+.form-title {
+    margin-bottom: 1rem;
+}
+
+.form-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-input-wrapper > label {
+    font-weight: 500; /* medium */
+    margin-bottom: 0.25rem;
+}
+
+.form-input-wrapper > input {
+    padding: 0.5rem 1rem;
+
+    border: 0.0625rem solid var(--divider);
+    outline: 0;
+
+    color: var(--foreground);
+    background-color: var(--background);
+
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: normal;
+
+    border-radius: var(--corner-radius);
+}
+
+form > button {
+    color: var(--on-primary);
+    background-color: var(--primary);
+}

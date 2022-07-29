@@ -3,6 +3,13 @@
 :root {
     --background: #fff;
     --foreground: #000;
+    --primary: #5e5ee7;
+    --on-primary: #fff;
+    --error: #d23d83;
+    --on-error: #fff;
+    --divider: #ccc;
+
+    --corner-radius: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {

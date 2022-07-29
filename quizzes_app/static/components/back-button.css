@@ -1,0 +1,20 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+#back-button {
+    align-self: flex-start;
+}
+
+#back-button::before {
+    content: "";
+    display: inline-block;
+
+    width: 0.5rem;
+    height: 0.5rem;
+
+    border: 0.125rem solid transparent;
+    border-radius: 0.0625rem;
+    border-top-color: currentColor;
+    border-left-color: currentColor;
+
+    transform: rotate(-45deg);
+}

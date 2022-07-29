@@ -1,0 +1,13 @@
+{# Copyright (c) 2022 Ivan Teplov #}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'components/back-button.css' %}">
+<button type="button" id="back-button" title="Navigate to the previous page">Back</button>
+
+<script>
+    $(function() {
+        $("#back-button").click(function() {
+            history.back()
+        })
+    })
+</script>
