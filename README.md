@@ -29,8 +29,14 @@ source ./venv/Scripts/activate # bash, zsh, fish, etc.
 pip install -r requirements.txt
 ```
 
-6. Run migrations
+6. Set up environment variables in `.env` file (you'll most probably have to create the file):
+```
+SECRET_KEY=your-secret-key-for-django
+```
+
+7. Make an run migrations
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
