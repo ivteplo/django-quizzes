@@ -1,0 +1,16 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    color: var(--foreground);
+    background-color: var(--background);
+}

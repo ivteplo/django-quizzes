@@ -29,9 +29,14 @@ source ./venv/Scripts/activate # bash, zsh, fish, etc.
 pip install -r requirements.txt
 ```
 
-6. Start a server
+6. Run migrations
+```bash
+python manage.py migrate
+```
+
+7. Start a server
 ```bash
 python manage.py runserver
 ```
 
-7. Happy hacking! 🎉
+8. Happy hacking! 🎉
