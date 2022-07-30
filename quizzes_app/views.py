@@ -13,6 +13,9 @@ def index(request: HttpRequest):
 
 
 def register(request: HttpRequest):
+    if request.user.is_authenticated:
+        return redirect(to='index')
+
     options = {}
 
     if request.method == 'POST':
@@ -33,19 +36,17 @@ def register(request: HttpRequest):
             options['error'] = "Passwords don't match"
         else:
             try:
-                # TODO: custom auth backend
-                # (it currently throws an error)
-                user = User.objects.create(
+                User.objects.create_user(
                     name=name,
                     email=email,
                     password=password
                 )
 
-                authenticate(request, **user)
+                authenticate(request, email=email, password=password)
             except ValidationError as error:
                 options['error'] = error.message
             else:
-                return redirect(request, 'index')
+                return redirect(to='index')
 
 
     return render(request, 'register.html', options)
