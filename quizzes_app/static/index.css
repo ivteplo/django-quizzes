@@ -13,6 +13,9 @@ body {
 body {
     color: var(--foreground);
     background-color: var(--background);
+
+    box-sizing: border-box;
+    padding: 1rem;
 }
 
 h1 {

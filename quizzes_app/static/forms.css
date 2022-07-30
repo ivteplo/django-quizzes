@@ -52,3 +52,14 @@ form > button {
     color: var(--on-primary);
     background-color: var(--primary);
 }
+
+.form-toggle-type {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+.form-toggle-type > a {
+    text-decoration: none;
+    color: var(--primary);
+}

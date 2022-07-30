@@ -2,6 +2,8 @@
 
 :root {
     --background: #fff;
+    --vibrant-background-opacity: 1;
+    --vibrant-background: rgba(255, 255, 255, var(--vibrant-background-opacity));
     --foreground: #000;
     --primary: #5e5ee7;
     --on-primary: #fff;
@@ -12,9 +14,17 @@
     --corner-radius: 0.5rem;
 }
 
+@supports (backdrop-filter: blur(1rem)) {
+    :root {
+        --vibrant-background-opacity: 0.8;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #000;
+        --vibrant-background: rgba(0, 0, 0, var(--vibrant-background-opacity));
         --foreground: #fff;
+        --divider: #333;
     }
 }

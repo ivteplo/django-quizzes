@@ -1,6 +1,6 @@
 # Copyright (c) 2022 Ivan Teplov
 
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
@@ -36,13 +36,13 @@ def register(request: HttpRequest):
             options['error'] = "Passwords don't match"
         else:
             try:
-                User.objects.create_user(
+                user = User.objects.create_user(
                     name=name,
                     email=email,
                     password=password
                 )
 
-                authenticate(request, email=email, password=password)
+                login(request, user)
             except ValidationError as error:
                 options['error'] = error.message
             else:
@@ -50,3 +50,41 @@ def register(request: HttpRequest):
 
 
     return render(request, 'register.html', options)
+
+
+def sign_in(request: HttpRequest):
+    if request.user.is_authenticated:
+        return redirect(to='index')
+
+    options = {}
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if not email:
+            options['error'] = 'Please, specify your email'
+        elif not password:
+            options['error'] = 'Please, specify a password'
+        else:
+            try:
+                user = authenticate(request, email=email, password=password)
+
+                if user:
+                    login(request, user)
+                else:
+                    raise ValidationError('Invalid email or password')
+            except ValidationError as error:
+                options['error'] = error.message
+            else:
+                return redirect(to='index')
+
+
+    return render(request, 'sign-in.html', options)
+
+
+def sign_out(request: HttpRequest):
+    if request.user.is_authenticated:
+        logout(request)
+
+    return redirect('index')

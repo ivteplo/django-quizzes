@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    Register | Quizzes
+    Sign in | Quizzes
 {% endblock %}
 
 {% block head %}
@@ -13,19 +13,15 @@
 {% block body %}
     {% include 'components/back-button.html' %}
     <section class="column fill justify-center items-center">
-        <form method="POST" action="{% url 'register' %}">
+        <form method="POST" action="{% url 'sign-in' %}">
             {% csrf_token %}
-            <h1 class="form-title">Register</h1>
+            <h1 class="form-title">Sign in</h1>
             {% if error %}
                 <p class="error-alert">
                     <span class="font-medium">Error:</span>
                     {{ error }}
                 </p>
             {% endif %}
-            <div class="form-input-wrapper">
-                <label for="name">Name</label>
-                <input type="text" name="name" placeholder="Your name" required>
-            </div>
             <div class="form-input-wrapper">
                 <label for="email">Email</label>
                 <input type="email" name="email" placeholder="Your email" required>
@@ -34,14 +30,10 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" placeholder="Your password" required>
             </div>
-            <div class="form-input-wrapper">
-                <label for="password">Repeat the password</label>
-                <input type="password" name="repeated-password" placeholder="Repeat your password" required>
-            </div>
-            <button type="submit">Register</button>
+            <button type="submit">Sign in</button>
             <p class="form-toggle-type">
-                <b>Already have an account?</b>
-                <a href="{% url 'sign-in' %}">Click here to sign in</a>
+                <b>Haven't got an account yet?</b>
+                <a href="{% url 'register' %}">Click here to register</a>
             </p>
         </form>
     </section>
