@@ -7,13 +7,16 @@
     <b class="navigation-bar-logo">Quizzes</b>
     <div class="fill"></div>
     <ul role="menu" class="navigation-bar-links row">
-        {% if not user.is_authenticated %}
+        {% if user.is_authenticated %}
             <li role="menuitem">
-                <a href="{% url 'sign-in' %}" class="navigation-bar-link primary">Sign in</a>
+                <a href="{% url 'new-quiz' %}" class="navigation-bar-link primary">New</a>
+            </li>
+            <li role="menuitem">
+                <a href="{% url 'sign-out' %}" class="navigation-bar-link">Sign out</a>
             </li>
         {% else %}
             <li role="menuitem">
-                <a href="{% url 'sign-out' %}" class="navigation-bar-link">Sign out</a>
+                <a href="{% url 'sign-in' %}" class="navigation-bar-link primary">Sign in</a>
             </li>
         {% endif %}
     </ul>

@@ -5,7 +5,9 @@ from django.core.exceptions import ValidationError
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
-from .models import User
+from .models import User, Quiz
+
+# TODO: create decorators for signed_in_only and not_signed_in_only
 
 
 def index(request: HttpRequest):
@@ -49,7 +51,7 @@ def register(request: HttpRequest):
                 return redirect(to='index')
 
 
-    return render(request, 'register.html', options)
+    return render(request, 'auth/register.html', options)
 
 
 def sign_in(request: HttpRequest):
@@ -80,7 +82,7 @@ def sign_in(request: HttpRequest):
                 return redirect(to='index')
 
 
-    return render(request, 'sign-in.html', options)
+    return render(request, 'auth/sign-in.html', options)
 
 
 def sign_out(request: HttpRequest):
@@ -88,3 +90,26 @@ def sign_out(request: HttpRequest):
         logout(request)
 
     return redirect('index')
+
+
+def new_quiz(request: HttpRequest):
+    options = {}
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+
+        try:
+            quiz = Quiz.objects.create(creator=request.user, name=name, description=description)
+        except ValidationError as error:
+            options['error'] = error
+        else:
+            return redirect('quiz-page', quiz_id=quiz.id)
+
+
+    return render(request, 'quiz/new.html', options)
+
+
+def quiz_page(request: HttpRequest, quiz_id: str):
+    # TODO
+    return render(request, 'quiz/quiz.html')

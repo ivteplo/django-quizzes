@@ -1,0 +1,26 @@
+{# Copyright (c) 2022 Ivan Teplov #}
+{% extends 'layouts/main.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'forms.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% block before_form %}
+    {% endblock %}
+    <section class="column fill justify-center items-center">
+        <form method="{{ form_method }}" action="{% url form_action %}">
+            {% csrf_token %}
+            {% if error %}
+                <p class="error-alert">
+                    <span class="font-medium">Error:</span>
+                    {{ error }}
+                </p>
+            {% endif %}
+            {% block form_body %}
+            {% endblock %}
+        </form>
+    </section>
+{% endblock %}
+

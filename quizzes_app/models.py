@@ -42,3 +42,9 @@ class User(AbstractUser):
     email = models.EmailField(primary_key=True, unique=True)
 
     REQUIRED_FIELDS = ['name']
+
+
+class Quiz(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, null=False)
+    description = models.CharField(max_length=500, null=True)

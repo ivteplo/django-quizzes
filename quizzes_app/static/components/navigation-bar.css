@@ -26,6 +26,8 @@ nav {
 
     padding: 0.5rem;
     border-radius: var(--corner-radius);
+
+    margin-left: 0.5rem;
 }
 
 .navigation-bar-link.primary {
