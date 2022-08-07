@@ -3,6 +3,9 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.text import slugify
+
+import string
 
 
 class UserManager(BaseUserManager):
@@ -48,3 +51,7 @@ class Quiz(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=False)
     description = models.CharField(max_length=500, null=True)
+
+    @property
+    def url(self):
+        return slugify(str(self.id) + '-' + self.name.lower())

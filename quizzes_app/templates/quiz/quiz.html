@@ -3,10 +3,28 @@
 
 {# TODO: show quiz name instead of just the word 'Quiz' #}
 {% block title %}
-    Quiz | Quizzes
+    {{ quiz.name }} | Quizzes
 {% endblock %}
 
 {% block body %}
     {% include 'components/navigation-bar.html' %}
-    <h1>TODO</h1>
+
+    {# section with quiz info #}
+    <section>
+        {# quiz name and description #}
+        <h1>{{ quiz.name }}</h1>
+        <p>
+            {% if quiz.description != '' %}
+                {{ quiz.description }}
+            {% else %}
+                <i>No description provided</i>
+            {% endif %}
+        </p>
+
+        {# information about author #}
+        <p>
+            <span>Made by</span>
+            <b>{{ quiz.creator.name }}</b>
+        </p>
+    </section>
 {% endblock %}
