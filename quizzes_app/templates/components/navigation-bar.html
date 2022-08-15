@@ -14,6 +14,9 @@
             <li role="menuitem">
                 <a href="{% url 'sign-out' %}" class="navigation-bar-link">Sign out</a>
             </li>
+            <li class="row items-center" style="margin-left: 1rem">
+                Welcome back, {{ user.name }}
+            </li>
         {% else %}
             <li role="menuitem">
                 <a href="{% url 'sign-in' %}" class="navigation-bar-link primary">Sign in</a>
