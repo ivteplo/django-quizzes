@@ -7,7 +7,7 @@
 
 {% block body %}
     {% include 'components/back-button.html' %}
-    {% with form_method="POST" form_action="new-quiz" %}
+    {% with form_method="POST" form_action="register" %}
         {{ block.super }}
     {% endwith %}
 {% endblock %}
