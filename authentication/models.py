@@ -26,9 +26,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    class Meta:
-        db_table = 'quizzes_app_user'
-
     objects = UserManager()
 
     # We will use email instead of username
