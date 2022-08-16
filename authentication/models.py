@@ -36,9 +36,6 @@ class User(AbstractUser):
     first_name = None
     last_name = None
 
-    groups = None
-    user_permissions = None
-
     name = models.CharField(max_length=50)
     email = models.EmailField(primary_key=True, unique=True)
 
