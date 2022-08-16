@@ -88,7 +88,7 @@ DATABASES = {
 
 # Authentication
 
-AUTH_USER_MODEL = 'quizzes_app.User'
+AUTH_USER_MODEL = 'auth.User'
 
 
 # Password validation

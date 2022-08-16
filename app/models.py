@@ -1,12 +1,12 @@
 # Copyright (c) 2022 Ivan Teplov
 
-from django.contrib.auth import get_user_model
+from authentication.models import User
 from django.db import models
 from django.utils.text import slugify
 
 
 class Quiz(models.Model):
-    creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=False)
     description = models.CharField(max_length=500, null=True)
 
