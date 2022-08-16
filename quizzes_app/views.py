@@ -11,7 +11,7 @@ from .models import User, Quiz
 
 
 def index(request: HttpRequest):
-    return render(request, 'index.html')
+    return render(request, 'app/index.html')
 
 
 def register(request: HttpRequest):
