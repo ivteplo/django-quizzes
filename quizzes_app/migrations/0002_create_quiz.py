@@ -13,12 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelManagers(
-            name='user',
-            managers=[
-                ('objects', quizzes_app.models.UserManager()),
-            ],
-        ),
         migrations.CreateModel(
             name='Quiz',
             fields=[

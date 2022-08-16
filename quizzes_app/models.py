@@ -9,8 +9,6 @@ import string
 
 
 class UserManager(BaseUserManager):
-    use_in_migrations = True
-
     def create_user(self, name, email, password, is_staff=False, is_superuser=False):
         if not name:
             raise ValidationError('Please, specify your name')
