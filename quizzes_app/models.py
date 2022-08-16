@@ -20,7 +20,7 @@ class UserManager(BaseUserManager):
             raise ValidationError('Password should be at least 4 characters long')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, is_staff=is_staff, is_superuser=is_superuser)
+        user = self.model(name=name, email=email, is_staff=is_staff, is_superuser=is_superuser)
         user.set_password(password)
         user.save(using=self._db)
         return user
