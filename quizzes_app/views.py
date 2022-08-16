@@ -1,11 +1,14 @@
 # Copyright (c) 2022 Ivan Teplov
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest, Http404
 from django.shortcuts import redirect, render, get_object_or_404
 
-from .models import User, Quiz
+from app.models import Quiz
+
+
+User = get_user_model()
 
 # TODO: create decorators for signed_in_only and not_signed_in_only
 
