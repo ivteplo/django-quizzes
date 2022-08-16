@@ -51,7 +51,8 @@ def register(request: HttpRequest):
                 return redirect(to='index')
 
 
-    return render(request, 'auth/register.html', options)
+    status = 400 if 'error' in options else 200
+    return render(request, 'auth/register.html', options, status=status)
 
 
 def sign_in(request: HttpRequest):
@@ -82,7 +83,8 @@ def sign_in(request: HttpRequest):
                 return redirect(to='index')
 
 
-    return render(request, 'auth/sign-in.html', options)
+    status = 400 if 'error' in options else 200
+    return render(request, 'auth/sign-in.html', options, status=status)
 
 
 def sign_out(request: HttpRequest):
