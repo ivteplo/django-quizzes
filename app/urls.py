@@ -11,3 +11,4 @@ urlpatterns = [
     path('quiz/new', views.new_quiz, name='new-quiz'),
     path('quiz/<str:quiz_url>', views.quiz_page, name='quiz-page')
 ]
+
