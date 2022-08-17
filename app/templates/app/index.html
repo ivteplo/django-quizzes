@@ -3,5 +3,16 @@
 
 {% block body %}
     {% include 'components/navigation-bar.html' %}
-    <h1>Hello, World!</h1>
+
+    <h1>Home</h1>
+
+    <section class="column page-section">
+        <h2>Latest quizzes</h2>
+        {# TODO: any kind of recommendation system (?) #}
+        {% for quiz in latest_quizzes %}
+            <a href="{% url 'quiz-page' quiz_url=quiz.url %}">{{ quiz.name }}</a>
+        {% empty %}
+            <i>There are no quizzes on the platform yet</i>
+        {% endfor %}
+    </section>
 {% endblock %}

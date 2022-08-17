@@ -14,7 +14,11 @@ User = get_user_model()
 
 
 def index(request: HttpRequest):
-    return render(request, 'app/index.html')
+    latest_quizzes = Quiz.objects.all().order_by('-id')[:10]
+    latest_quizzes_reversed = reversed(latest_quizzes)
+    return render(request, 'app/index.html', {
+        'latest_quizzes': latest_quizzes
+    })
 
 
 def new_quiz(request: HttpRequest):
