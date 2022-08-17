@@ -24,7 +24,7 @@ nav {
     display: inline-flex;
     text-decoration: none;
 
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     border-radius: var(--corner-radius);
 
     margin-left: 0.5rem;
