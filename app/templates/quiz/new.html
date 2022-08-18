@@ -1,5 +1,6 @@
 {# Copyright (c) 2022 Ivan Teplov #}
 {% extends 'layouts/form.html' %}
+{% load reverse_url %}
 {% load static %}
 
 {% block title %}
@@ -8,7 +9,7 @@
 
 {% block body %}
     {% include 'components/back-button.html' %}
-    {% with form_method="POST" form_action="new-quiz" %}
+    {% with form_method="POST" form_action="new-quiz"|reverse_url %}
         {{ block.super }}
     {% endwith %}
 {% endblock %}

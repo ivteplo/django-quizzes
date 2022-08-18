@@ -12,4 +12,5 @@ class Quiz(models.Model):
 
     @property
     def url(self):
-        return slugify(str(self.id) + '-' + self.name.lower())
+        path = str(self.id) + '-' + self.name.lower()
+        return slugify(path, allow_unicode=True)

@@ -7,7 +7,7 @@
 
 {% block body %}
     {% include 'components/back-button.html' %}
-    {% with form_method="POST" form_action="sign-in" %}
+    {% with form_method="POST" form_action=request.get_full_path %}
         {{ block.super }}
     {% endwith %}
 {% endblock %}

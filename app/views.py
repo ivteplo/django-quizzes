@@ -1,6 +1,8 @@
 # Copyright (c) 2022 Ivan Teplov
 
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from authentication.decorators import signed_in_only
+
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest, Http404
 from django.shortcuts import redirect, render, get_object_or_404
@@ -10,17 +12,16 @@ from .models import Quiz
 
 User = get_user_model()
 
-# TODO: create decorators for signed_in_only and not_signed_in_only
 
-
-def index(request: HttpRequest):
+def home(request: HttpRequest):
     latest_quizzes = Quiz.objects.all().order_by('-id')[:10]
-    latest_quizzes_reversed = reversed(latest_quizzes)
+
     return render(request, 'app/index.html', {
         'latest_quizzes': latest_quizzes
     })
 
 
+@signed_in_only
 def new_quiz(request: HttpRequest):
     options = {}
 
@@ -40,7 +41,7 @@ def new_quiz(request: HttpRequest):
 
 
 def quiz_page(request: HttpRequest, quiz_url: str):
-    quiz_id_str, *other_url_parts = quiz_url.split('-')
+    quiz_id_str, *_other_url_parts = quiz_url.split('-')
     quiz = None
 
     try:

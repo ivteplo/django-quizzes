@@ -10,7 +10,7 @@
     {% block before_form %}
     {% endblock %}
     <section class="column fill justify-center items-center">
-        <form method="{{ form_method }}" action="{% url form_action %}">
+        <form method="{{ form_method }}" action="{{ form_action }}">
             {% csrf_token %}
             {% if error %}
                 <p class="error-alert">

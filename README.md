@@ -34,9 +34,8 @@ pip install -r requirements.txt
 SECRET_KEY=your-secret-key-for-django
 ```
 
-7. Make an run migrations
+7. Run migrations
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 

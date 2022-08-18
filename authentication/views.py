@@ -4,16 +4,18 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
+from django.urls import reverse
+
+from .helpers import normalize_redirect_to
+
+from .decorators import not_signed_in_only
 
 
 User = get_user_model()
 
-# TODO: create decorators for signed_in_only and not_signed_in_only
 
+@not_signed_in_only
 def register(request: HttpRequest):
-    if request.user.is_authenticated:
-        return redirect(to='index')
-
     options = {}
 
     if request.method == 'POST':
@@ -44,17 +46,20 @@ def register(request: HttpRequest):
             except ValidationError as error:
                 options['error'] = error.message
             else:
-                return redirect(to='index')
+                url = normalize_redirect_to(
+                    request.GET.get('redirect_to'),
+                    reverse('home')
+                )
+
+                return redirect(to=url)
 
 
     status = 400 if 'error' in options else 200
     return render(request, 'auth/register.html', options, status=status)
 
 
+@not_signed_in_only
 def sign_in(request: HttpRequest):
-    if request.user.is_authenticated:
-        return redirect(to='index')
-
     options = {}
 
     if request.method == 'POST':
@@ -76,7 +81,12 @@ def sign_in(request: HttpRequest):
             except ValidationError as error:
                 options['error'] = error.message
             else:
-                return redirect(to='index')
+                url = normalize_redirect_to(
+                    request.GET.get('redirect_to'),
+                    reverse('home')
+                )
+
+                return redirect(to=url)
 
 
     status = 400 if 'error' in options else 200
@@ -87,4 +97,4 @@ def sign_out(request: HttpRequest):
     if request.user.is_authenticated:
         logout(request)
 
-    return redirect('index')
+    return redirect('home')
