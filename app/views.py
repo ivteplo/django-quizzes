@@ -7,7 +7,8 @@ from django.core.exceptions import ValidationError
 from django.http import HttpRequest, Http404
 from django.shortcuts import redirect, render, get_object_or_404
 
-from .models import Quiz
+from .helpers import parse_dict_keys
+from .models import Answer, Question, Quiz
 
 
 User = get_user_model()
@@ -40,9 +41,8 @@ def new_quiz(request: HttpRequest):
     return render(request, 'quiz/new.html', options)
 
 
-def quiz_page(request: HttpRequest, quiz_url: str):
+def _get_quiz_by_url(quiz_url: str) -> Quiz or Http404:
     quiz_id_str, *_other_url_parts = quiz_url.split('-')
-    quiz = None
 
     try:
         quiz_id = int(quiz_id_str)
@@ -50,6 +50,11 @@ def quiz_page(request: HttpRequest, quiz_url: str):
         raise Http404("Invalid quiz URL")
 
     quiz = get_object_or_404(Quiz, id=quiz_id)
+    return quiz
+
+
+def quiz_page(request: HttpRequest, quiz_url: str):
+    quiz = _get_quiz_by_url(quiz_url)
 
     if quiz_url != quiz.url:
         return redirect('quiz-page', quiz_url=quiz.url)
@@ -57,3 +62,63 @@ def quiz_page(request: HttpRequest, quiz_url: str):
     return render(request, 'quiz/quiz.html', {
         'quiz': quiz
     })
+
+
+def add_quiz_question(request: HttpRequest, quiz_url: str):
+    quiz = _get_quiz_by_url(quiz_url)
+
+    if quiz_url != quiz.url:
+        return redirect('add-quiz-question', quiz_url=quiz.url)
+
+    question_prompt, question_type, answers = None, None, []
+    error = None
+
+    if request.method == 'POST':
+        question_prompt = request.POST.get('question')
+        question_type_string = request.POST.get('question-type')
+
+        try:
+            answers = list(parse_dict_keys(request.POST)['answers'].values())
+        except Exception:
+            error = 'Answers are specified in a wrong way'
+        else:
+            if not question_prompt:
+                error = 'Please, specify a question'
+            elif not question_type_string:
+                error = 'Please, choose a question type'
+            elif len(answers) == 1:
+                error = 'Please, specify more answers'
+            else:
+                try:
+                    question_type = int(question_type_string)
+                except ValueError:
+                    error = 'Invalid question type'
+                else:
+                    question = Question.objects.create(
+                        quiz=quiz,
+                        text=question_prompt,
+                        question_type=question_type
+                    )
+
+                    for answer in answers:
+                        Answer.objects.create(
+                            question=question,
+                            text=answer['text'],
+                            is_right=answer['is_right'] == 'on'
+                        )
+
+                    return redirect(to='quiz-page', quiz_url=quiz.url)
+
+    return render(request, 'quiz/add-question.html', {
+        'quiz': quiz,
+        'question_types': [
+            { 'id': id, 'text': text  } \
+                for id, text in Question.QUESTION_TYPE_CHOICES
+        ],
+        'form': {
+            'question': question_prompt,
+            'question_type': question_type,
+            'answers': answers
+        },
+        'error': error
+    }, status=200 if not error else 400)

@@ -26,5 +26,25 @@
             <span>Made by</span>
             <b>{{ quiz.creator.name }}</b>
         </p>
+
+        <div>
+            <a href="{% url 'add-quiz-question' quiz_url=quiz.url %}">Add a question to the quiz</a>
+        </div>
+    </section>
+
+    {# questions #}
+    <section class="column">
+        <ul>
+            {% for question in quiz.questions.all %}
+                <li>
+                    <p>{{ question.text }}</p>
+                    <ul>
+                        {% for answer in question.answers.all %}
+                            <li>{{ answer.text }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
     </section>
 {% endblock %}
