@@ -1,0 +1,29 @@
+{# Copyright (c) 2022 Ivan Teplov #}
+{% extends 'layouts/form.html' %}
+{% load reverse_url %}
+{% load static %}
+
+{% block title %}
+    Edit Quiz | Quizzes
+{% endblock %}
+
+{% block body %}
+    {% include 'components/back-button.html' %}
+    {% with form_method="POST" form_action="edit-quiz"|reverse_url:quiz.url %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block form_body %}
+    <h1 class="form-title">Quiz</h1>
+    <div class="form-input-wrapper">
+        <label for="name">Quiz name</label>
+        <input type="text" id="name" name="name" placeholder="Quiz name" required value="{{ quiz.name }}">
+    </div>
+    <div class="form-input-wrapper">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" placeholder="Tell more about the quiz" value="{{ quiz.description }}">
+    </div>
+    <button type="submit">Update</button>
+{% endblock %}
+

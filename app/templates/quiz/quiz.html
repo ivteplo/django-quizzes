@@ -21,15 +21,20 @@
             {% endif %}
         </p>
 
-        {# information about author #}
+        {# information about a creator #}
         <p>
             <span>Made by</span>
             <b>{{ quiz.creator.name }}</b>
         </p>
 
-        <div>
-            <a href="{% url 'add-quiz-question' quiz_url=quiz.url %}">Add a question to the quiz</a>
-        </div>
+        {% if quiz.creator == request.user %}
+            <div>
+                <a href="{% url 'edit-quiz' quiz_url=quiz.url %}">Change information about the quiz</a>
+            </div>
+            <div>
+                <a href="{% url 'add-quiz-question' quiz_url=quiz.url %}">Add a question to the quiz</a>
+            </div>
+        {% endif %}
     </section>
 
     {# questions #}

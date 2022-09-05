@@ -1,13 +1,18 @@
 # Copyright (c) 2022 Ivan Teplov
 
 from authentication.models import User
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils.text import slugify
 
 
 class Quiz(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, null=False)
+
+    name = models.CharField(max_length=255, null=False, validators=[
+        MinLengthValidator(3, 'The name of the quiz has to be at least three characters long')
+    ])
+
     description = models.CharField(max_length=500, null=True)
 
     @property
@@ -26,11 +31,16 @@ class Question(models.Model):
     ]
 
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
-    text = models.CharField(max_length=255, null=False)
+    text = models.CharField(max_length=255, null=False, validators=[
+        MinLengthValidator(2, 'The question has to be at least two characters long')
+    ])
     question_type = models.IntegerField(choices=QUESTION_TYPE_CHOICES)
 
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    text = models.CharField(max_length=255, null=False)
+    text = models.CharField(max_length=255, null=False, validators=[
+        MinLengthValidator(2, 'The answer has to be at least two characters long')
+    ])
+
     is_right = models.BooleanField(default=True)

@@ -64,11 +64,43 @@ def quiz_page(request: HttpRequest, quiz_url: str):
     })
 
 
+@signed_in_only
+def edit_quiz(request: HttpRequest, quiz_url: str):
+    quiz = _get_quiz_by_url(quiz_url)
+    options = {
+        'quiz': quiz,
+        'error': None
+    }
+
+    if quiz_url != quiz.url:
+        return redirect('edit-quiz', quiz_url=quiz.url)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+
+        try:
+            quiz.name = name
+            quiz.description = description
+            quiz.full_clean()
+            quiz.save()
+        except ValidationError as error:
+            options['error'] = error.messages[0]
+        else:
+            return redirect('quiz-page', quiz_url=quiz.url)
+
+    return render(request, 'quiz/edit.html', options,
+            status=200 if not options['error'] else 400)
+
+
 def add_quiz_question(request: HttpRequest, quiz_url: str):
     quiz = _get_quiz_by_url(quiz_url)
 
     if quiz_url != quiz.url:
         return redirect('add-quiz-question', quiz_url=quiz.url)
+
+    if quiz.creator != request.user:
+        return redirect('quiz-page', quiz_url=quiz.url)
 
     question_prompt, question_type, answers = None, None, []
     error = None
