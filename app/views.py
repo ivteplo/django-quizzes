@@ -22,6 +22,14 @@ def home(request: HttpRequest):
     })
 
 
+def search(request: HttpRequest):
+    return render(request, 'app/search.html')
+
+
+def profile(request: HttpRequest):
+    return render(request, 'app/profile.html')
+
+
 @signed_in_only
 def new_quiz(request: HttpRequest):
     options = {}

@@ -6,6 +6,8 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('search', views.search, name='search'),
+    path('profile', views.profile, name='profile'),
 
     # quizzes
     path('quiz/new', views.new_quiz, name='new-quiz'),
