@@ -4,6 +4,7 @@
     --background: #fff;
     --vibrant-background-opacity: 1;
     --vibrant-background: rgba(255, 255, 255, var(--vibrant-background-opacity));
+    --tinted-background: #EDEDED;
     --foreground: #000;
     --primary: #5e5ee7;
     --on-primary: #fff;
@@ -24,6 +25,7 @@
     :root {
         --background: #000;
         --vibrant-background: rgba(0, 0, 0, var(--vibrant-background-opacity));
+        --tinted-background: #222;
         --foreground: #fff;
         --divider: #333;
     }

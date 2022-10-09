@@ -1,5 +1,11 @@
 {# Copyright (c) 2022 Ivan Teplov #}
 {% extends 'layouts/main.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'components/quiz-card.css' %}">
+    <link rel="stylesheet" href="{% static 'app/index.css' %}">
+{% endblock %}
 
 {% block body %}
     {% include 'components/tab-bar.html' %}
@@ -9,10 +15,14 @@
     <section class="column page-section">
         <h2>Latest quizzes</h2>
         {# TODO: any kind of recommendation system (?) #}
-        {% for quiz in latest_quizzes %}
-            <a href="{% url 'quiz-page' quiz_url=quiz.url %}">{{ quiz.name }}</a>
-        {% empty %}
-            <i>There are no quizzes on the platform yet</i>
-        {% endfor %}
+        <div class="row">
+            {% for quiz in latest_quizzes %}
+                <a href="{% url 'quiz-page' quiz_url=quiz.url %}" class="quiz-card-link">
+                    {% include 'components/quiz-card.html' with quiz=quiz %}
+                </a>
+            {% empty %}
+                <i>There are no quizzes on the platform yet</i>
+            {% endfor %}
+        </div>
     </section>
 {% endblock %}

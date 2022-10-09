@@ -1,0 +1,13 @@
+<div class="quiz-card">
+    <h3 class="quiz-card-name">{{ quiz.name }}</h3>
+    <p class="quiz-card-question-count">{{ quiz.questions|length }} questions</p>
+    <div class="row quiz-card-author">
+        <!-- Currently it's an empty image -->
+        <img
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            alt="{{ quiz.creator.name }}'s profile photo"
+            class="quiz-card-author-photo"
+        >
+        <span>{{ quiz.creator.name }}</span>
+    </div>
+</div>
