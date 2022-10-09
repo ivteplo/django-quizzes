@@ -1,0 +1,35 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+.search-form {
+    position: relative;
+    margin-top: 1rem;
+}
+
+.search-form-icon-wrapper {
+    position: absolute;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    left: 0.5rem;
+    pointer-events: none;
+}
+
+.search-form-icon-wrapper > svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--placeholder);
+}
+
+.search-form-input {
+    padding: 0.25rem 0.5rem;
+    padding-left: 2.5rem;
+    border-radius: 0.5rem;
+    border: 0;
+    outline: 0;
+    background-color: var(--tinted-background);
+    font: inherit;
+    line-height: 1.5rem;
+}
+
+.search-form-input::placeholder {
+    color: var(--placeholder);
+}
