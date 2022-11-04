@@ -1,0 +1,16 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+.user-card {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--tinted-background);
+}
+
+.user-card-photo {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--divider);
+}

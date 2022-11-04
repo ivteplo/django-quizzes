@@ -39,7 +39,8 @@
     margin-top: 2rem;
 }
 
-.quiz-card-link {
+.quiz-card-link,
+.user-card-link {
     text-decoration: none;
     color: unset;
 }
