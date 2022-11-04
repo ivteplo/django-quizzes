@@ -3,6 +3,7 @@
 .quiz-card {
     padding: 1rem;
     border-radius: 1rem;
+    color: var(--foreground);
     background-color: var(--tinted-background);
 }
 

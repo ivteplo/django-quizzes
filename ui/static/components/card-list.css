@@ -1,0 +1,5 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+.card-list > *:not(:last-child) {
+    margin-right: 0.5rem;
+}

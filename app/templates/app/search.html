@@ -5,6 +5,7 @@
 {% block head %}
     <link rel="stylesheet" href="{% static 'components/quiz-card.css' %}">
     <link rel="stylesheet" href="{% static 'components/user-card.css' %}">
+    <link rel="stylesheet" href="{% static 'components/card-list.css' %}">
     <link rel="stylesheet" href="{% static 'app/search.css' %}">
 {% endblock %}
 
@@ -26,7 +27,7 @@
         {% if query %}
             <section class="column search-results-section">
                 <h2>Quizzes</h2>
-                <div class="row">
+                <div class="row card-list">
                     {% for quiz in quizzes %}
                         <a href="{% url 'quiz-page' quiz_url=quiz.url %}" class="quiz-card-link">
                             {% include 'components/quiz-card.html' with quiz=quiz %}
@@ -38,7 +39,7 @@
             </section>
             <section class="column search-results-section">
                 <h2>Users</h2>
-                <div class="row">
+                <div class="row card-list">
                     {% for user in users %}
                         <a href="" class="user-card-link">
                             {% include 'components/user-card.html' with user=user %}

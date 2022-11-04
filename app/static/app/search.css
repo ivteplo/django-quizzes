@@ -38,9 +38,3 @@
 .search-results-section {
     margin-top: 2rem;
 }
-
-.quiz-card-link,
-.user-card-link {
-    text-decoration: none;
-    color: unset;
-}
