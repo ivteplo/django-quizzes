@@ -21,9 +21,9 @@
             value="{{ query }}">
     </form>
 
-    <section class="column search-results">
+    <section class="column fill search-results">
         {% if query %}
-            <section class="column search-results-quizzes">
+            <section class="column search-results-section">
                 <h2>Quizzes</h2>
                 <div class="row">
                     {% for quiz in quizzes %}
@@ -35,7 +35,7 @@
                     {% endfor %}
                 </div>
             </section>
-            <section class="column search-results-users">
+            <section class="column search-results-section">
                 <h2>Users</h2>
                 <div class="row">
                     {% for user in users %}

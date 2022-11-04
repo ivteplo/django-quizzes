@@ -34,3 +34,12 @@
 .search-form-input::placeholder {
     color: var(--placeholder);
 }
+
+.search-results-section {
+    margin-top: 2rem;
+}
+
+.quiz-card-link {
+    text-decoration: none;
+    color: unset;
+}
