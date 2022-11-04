@@ -29,7 +29,7 @@
                 <h2>Quizzes</h2>
                 <div class="row card-list">
                     {% for quiz in quizzes %}
-                        <a href="{% url 'quiz-page' quiz_url=quiz.url %}" class="quiz-card-link">
+                        <a href="{% url 'quiz-page' quiz_url=quiz.url %}">
                             {% include 'components/quiz-card.html' with quiz=quiz %}
                         </a>
                     {% empty %}
@@ -41,7 +41,7 @@
                 <h2>Users</h2>
                 <div class="row card-list">
                     {% for user in users %}
-                        <a href="" class="user-card-link">
+                        <a href="">
                             {% include 'components/user-card.html' with user=user %}
                         </a>
                     {% empty %}

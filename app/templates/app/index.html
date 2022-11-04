@@ -18,7 +18,7 @@
         {# TODO: any kind of recommendation system (?) #}
         <div class="row card-list">
             {% for quiz in latest_quizzes %}
-                <a href="{% url 'quiz-page' quiz_url=quiz.url %}" class="quiz-card-link">
+                <a href="{% url 'quiz-page' quiz_url=quiz.url %}">
                     {% include 'components/quiz-card.html' with quiz=quiz %}
                 </a>
             {% empty %}

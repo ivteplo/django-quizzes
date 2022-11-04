@@ -7,7 +7,7 @@ from django.utils.text import slugify
 
 
 class Quiz(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, related_name='created_quizzes', on_delete=models.CASCADE)
 
     name = models.CharField(max_length=255, null=False, validators=[
         MinLengthValidator(3, 'The name of the quiz has to be at least three characters long')

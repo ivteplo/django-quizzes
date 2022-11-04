@@ -1,8 +1,49 @@
 {# Copyright (c) 2022 Ivan Teplov #}
 {% extends 'layouts/main.html' %}
+{% load reverse_url %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'components/quiz-card.css' %}">
+    <link rel="stylesheet" href="{% static 'components/card-list.css' %}">
+    <link rel="stylesheet" href="{% static 'app/profile.css' %}">
+{% endblock %}
 
 {% block body %}
     {% include 'components/tab-bar.html' %}
 
-    <h1>Profile</h1>
+    {% if request.user.is_authenticated %}
+        <img
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            alt="{{ user.name }}'s profile photo"
+            class="user-profile-photo">
+        <h1>{{ user.name }}</h1>
+
+        <section class="column profile-section user-quizzes">
+            <h2>Quizzes made by you</h2>
+            <div class="row card-list">
+                {% for quiz in user.created_quizzes.all %}
+                    <a href="{% url 'quiz-page' quiz_url=quiz.url %}">
+                        {% include 'components/quiz-card.html' with quiz=quiz %}
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="column profile-section settings">
+            <h2>Settings</h2>
+            <div class="column">
+                <a class="settings-button" href="{% url 'sign-out' %}">
+                    {% include 'icons/sign-out.svg' %}
+                    <span>Sign out</span>
+                </a>
+            </div>
+        </section>
+    {% else %}
+        <h1>Profile</h1>
+        <div class="column fill items-center justify-center">
+            <p>You are not signed in. You can sign in or register by clicking the following button</p>
+            <a href="{% url 'sign-in' redirect_to='profile'|reverse_url %}" class="button">Sign in or register</a>
+        </div>
+    {% endif %}
 {% endblock %}
