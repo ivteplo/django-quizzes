@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block head %}
+    <link rel="stylesheet" href="{% static 'components/quiz-card.css' %}">
     <link rel="stylesheet" href="{% static 'app/search.css' %}">
 {% endblock %}
 
@@ -10,10 +11,40 @@
     {% include 'components/tab-bar.html' %}
 
     <h1>Search</h1>
-    <form class="search-form row">
-        <div class="search-form-icon-wrapper">
+    <form class="search-form row reverse" method="GET" action="{% url 'search' %}">
+        <button type="submit" class="search-form-icon-wrapper">
             {% include 'icons/search.svg' %}
-        </div>
-        <input type="text" placeholder="Enter your search query..." class="search-form-input fill">
+        </button>
+        <input name="query" type="text"
+            placeholder="Enter your search query..."
+            class="search-form-input fill"
+            value="{{ query }}">
     </form>
+
+    <section class="column search-results">
+        {% if query %}
+            <section class="column search-results-quizzes">
+                <h2>Quizzes</h2>
+                <div class="row">
+                    {% for quiz in quizzes %}
+                        <a href="{% url 'quiz-page' quiz_url=quiz.url %}" class="quiz-card-link">
+                            {% include 'components/quiz-card.html' with quiz=quiz %}
+                        </a>
+                    {% empty %}
+                        <p>No quizzes were found</p>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="column search-results-users">
+                <h2>Users</h2>
+                <div class="row">
+                    {% for user in users %}
+                        <p>{{ user.name }}</p>
+                    {% empty %}
+                        <p>No users were found</p>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    </section>
 {% endblock %}

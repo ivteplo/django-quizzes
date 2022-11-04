@@ -23,7 +23,19 @@ def home(request: HttpRequest):
 
 
 def search(request: HttpRequest):
-    return render(request, 'app/search.html')
+    query = request.GET.get('query', '')
+    quizzes = None
+    users = None
+
+    if query:
+        quizzes = Quiz.objects.filter(name__icontains=query)
+        users = User.objects.filter(name__icontains=query)
+
+    return render(request, 'app/search.html', {
+        'query': query,
+        'quizzes': quizzes,
+        'users': users
+    })
 
 
 def profile(request: HttpRequest):

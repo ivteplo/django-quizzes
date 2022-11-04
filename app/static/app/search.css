@@ -10,7 +10,8 @@
     top: 0.25rem;
     bottom: 0.25rem;
     left: 0.5rem;
-    pointer-events: none;
+    background-color: transparent;
+    padding: 0;
 }
 
 .search-form-icon-wrapper > svg {
