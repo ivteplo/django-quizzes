@@ -43,7 +43,7 @@
         <h1>Profile</h1>
         <div class="column fill items-center justify-center">
             <p>You are not signed in. You can sign in or register by clicking the following button</p>
-            <a href="{% url 'sign-in' redirect_to='profile'|reverse_url %}" class="button">Sign in or register</a>
+            <a href="{% url 'sign-in' %}?redirect_to={{ 'profile'|reverse_url }}" class="button">Sign in or register</a>
         </div>
     {% endif %}
 {% endblock %}
