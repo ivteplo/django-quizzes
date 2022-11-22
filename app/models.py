@@ -7,6 +7,9 @@ from django.utils.text import slugify
 
 
 class Quiz(models.Model):
+    class Meta:
+        db_table = "quizzes"
+
     creator = models.ForeignKey(User, related_name='created_quizzes', on_delete=models.CASCADE)
 
     name = models.CharField(max_length=255, null=False, validators=[
@@ -22,6 +25,9 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
+    class Meta:
+        db_table = "quiz_questions"
+
     MULTIPLE_CHOICE = 0
     TEXT_INPUT = 1
 
@@ -38,6 +44,9 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+    class Meta:
+        db_table = "quiz_question_answers"
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     text = models.CharField(max_length=255, null=False, validators=[
         MinLengthValidator(2, 'The answer has to be at least two characters long')
