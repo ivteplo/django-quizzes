@@ -1,6 +1,6 @@
 # Copyright (c) 2022 Ivan Teplov
 
-from authentication.models import User
+from django.contrib.auth import get_user_model
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils.text import slugify
@@ -10,7 +10,7 @@ class Quiz(models.Model):
     class Meta:
         db_table = "quizzes"
 
-    creator = models.ForeignKey(User, related_name='created_quizzes', on_delete=models.CASCADE)
+    creator = models.ForeignKey(get_user_model(), related_name='created_quizzes', on_delete=models.CASCADE)
 
     name = models.CharField(max_length=255, null=False, validators=[
         MinLengthValidator(3, 'The name of the quiz has to be at least three characters long')

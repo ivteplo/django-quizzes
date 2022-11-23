@@ -1,13 +1,14 @@
 # Copyright (c) 2022 Ivan Teplov
 
-from authentication.decorators import signed_in_only
+from quizzes.authentication.decorators import signed_in_only, not_signed_in_only
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.exceptions import ValidationError
 from django.http import HttpRequest, Http404
 from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 
-from .helpers import parse_dict_keys
+from .helpers import parse_dict_keys, normalize_redirect_to
 from .models import Answer, Question, Quiz
 
 
@@ -51,12 +52,12 @@ def new_quiz(request: HttpRequest):
         description = request.POST.get('description')
 
         try:
-            quiz = Quiz.objects.create(creator=request.user, name=name, description=description)
+            quiz = Quiz.objects.create(
+                creator=request.user, name=name, description=description)
         except ValidationError as error:
             options['error'] = error
         else:
             return redirect('quiz-page', quiz_url=quiz.id)
-
 
     return render(request, 'quiz/new.html', options)
 
@@ -110,7 +111,7 @@ def edit_quiz(request: HttpRequest, quiz_url: str):
             return redirect('quiz-page', quiz_url=quiz.url)
 
     return render(request, 'quiz/edit.html', options,
-            status=200 if not options['error'] else 400)
+                  status=200 if not options['error'] else 400)
 
 
 def add_quiz_question(request: HttpRequest, quiz_url: str):
@@ -164,8 +165,8 @@ def add_quiz_question(request: HttpRequest, quiz_url: str):
     return render(request, 'quiz/add-question.html', {
         'quiz': quiz,
         'question_types': [
-            { 'id': id, 'text': text  } \
-                for id, text in Question.QUESTION_TYPE_CHOICES
+            {'id': id, 'text': text}
+            for id, text in Question.QUESTION_TYPE_CHOICES
         ],
         'form': {
             'question': question_prompt,
@@ -174,3 +175,87 @@ def add_quiz_question(request: HttpRequest, quiz_url: str):
         },
         'error': error
     }, status=200 if not error else 400)
+
+
+@not_signed_in_only
+def register(request: HttpRequest):
+    options = {}
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        repeated_password = request.POST.get('repeated-password')
+
+        if not name:
+            options['error'] = 'Please, specify your name'
+        elif not email:
+            options['error'] = 'Please, specify your email'
+        elif not password:
+            options['error'] = 'Please, specify a password'
+        elif not repeated_password:
+            options['error'] = 'Please, repeat your password'
+        elif repeated_password != password:
+            options['error'] = "Passwords don't match"
+        else:
+            try:
+                user = User.objects.create_user(
+                    name=name,
+                    email=email,
+                    password=password
+                )
+
+                login(request, user)
+            except ValidationError as error:
+                options['error'] = error.message
+            else:
+                url = normalize_redirect_to(
+                    request.GET.get('redirect_to'),
+                    reverse('home')
+                )
+
+                return redirect(to=url)
+
+    status = 400 if 'error' in options else 200
+    return render(request, 'auth/register.html', options, status=status)
+
+
+@not_signed_in_only
+def sign_in(request: HttpRequest):
+    options = {}
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if not email:
+            options['error'] = 'Please, specify your email'
+        elif not password:
+            options['error'] = 'Please, specify a password'
+        else:
+            try:
+                user = authenticate(request, email=email, password=password)
+
+                if user:
+                    login(request, user)
+                else:
+                    raise ValidationError('Invalid email or password')
+            except ValidationError as error:
+                options['error'] = error.message
+            else:
+                url = normalize_redirect_to(
+                    request.GET.get('redirect_to'),
+                    reverse('home')
+                )
+
+                return redirect(to=url)
+
+    status = 400 if 'error' in options else 200
+    return render(request, 'auth/sign-in.html', options, status=status)
+
+
+def sign_out(request: HttpRequest):
+    if request.user.is_authenticated:
+        logout(request)
+
+    return redirect('home')

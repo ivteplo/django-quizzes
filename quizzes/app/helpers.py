@@ -2,6 +2,7 @@
 
 import re
 from django.http import QueryDict
+from django.urls import reverse
 
 
 def deep_merge(first_dictionary: dict, second_dictionary: dict) -> dict:
@@ -76,3 +77,17 @@ def parse_dict_keys(parameters: QueryDict or dict) -> dict:
             result[key] = parameters[key]
 
     return result
+
+
+def normalize_redirect_to(url: str or None, default_value: str) -> str:
+    if url is None:
+        return default_value
+
+    if (
+        not url.startswith('/')
+        or url.startswith('//')
+        or url == reverse('sign-out').rstrip('/')
+    ):
+        url = default_value
+
+    return url
