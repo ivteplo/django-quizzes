@@ -1,0 +1,18 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+.form-title {
+    margin-bottom: 0;
+}
+
+.form-title + p {
+    margin-bottom: 2rem;
+}
+
+.add-quiz-form-answer-option:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.add-quiz-form-answer-option input[type="text"] {
+    margin-left: 0.5rem;
+    flex: 1;
+}

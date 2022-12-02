@@ -4,7 +4,12 @@
 {% load static %}
 
 {% block title %}
-    Add question to a quiz | Quizzes
+    Add a question | Quizzes
+{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'quiz/add-question.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -18,36 +23,26 @@
     <h1 class="form-title">Add a Question</h1>
     <p>Adding a question to this quiz: {{ quiz.name }}</p>
 
-    <div class="form-input-wrapper">
+    <div class="form-input-wrapper column">
         <label for="question">Question</label>
         <input type="text" id="question" name="question" placeholder="Question to ask" required
             {% if form.question %} value="{{ form.question }}" {% endif %}>
     </div>
-    <div class="form-input-wrapper">
-        <label>Question type</label>
-        {% for question_type in question_types %}
-            {% with id=question_type.id|stringformat:"d-question-type" %}
-                <div class="row">
-                    <input type="radio" id="{{ id }}" name="question-type" value="{{ question_type.id }}" required
-                        {% if form.question_type == question_type.id %} checked {% endif %}>
-                    &nbsp;
-                    <label for="{{ id }}">{{ question_type.text }}</label>
-                </div>
-            {% endwith %}
-        {% endfor %}
-    </div>
-    <div class="form-input-wrapper column">
-        <label for="answer">Answers</label>
+    <div class="form-input-wrapper column" id="answer-options-container">
+        <div class="row items-center">
+            <label for="answer">Answer options</label>
+            <div class="fill"></div>
+            <button id="add-more-answers" type="button" data-next-id="{{ form.answers|length }}">Add option</button>
+        </div>
         {% for answer in form.answers %}
-            <div class="row">
+            <div class="row add-quiz-form-answer-option">
                 <input type="hidden" name="answers[{{ forloop.counter0 }}][is_right]" value="off">
                 <input type="checkbox" name="answers[{{ forloop.counter0 }}][is_right]"
-                    {% if answer.is_right == 'on' %} checked {% endif %}>
-                <input type="text" name="answers[{{ forloop.counter0 }}][text]" placeholder="Answer"
+                    {% if answer.is_right == 'on' %} checked {% endif %} label="Is the option a right one?">
+                <input type="text" name="answers[{{ forloop.counter0 }}][text]" placeholder="Answer option"
                     {% if answer.text %} value="{{ answer.text }}" {% endif %}>
             </div>
         {% endfor %}
-        <button id="add-more-answers" type="button" data-next-id="{{ form.answers|length }}">Add answers</button>
     </div>
     <button type="submit">Add question</button>
 
@@ -56,16 +51,21 @@
     <script>
         $(function() {
             const button = $('#add-more-answers')
+            const answerOptionsContainer = $('#answer-options-container')
             let nextId = button.data('next-id')
-            button.click(function() {
-                $('<div class="row"></div>').append(
+
+            function addAnswerVariant() {
+                $('<div class="row add-quiz-form-answer-option"></div>').append(
                     `<input type="hidden" name="answers[${nextId}][is_right]" value='off'>`,
-                    `<input type="checkbox" name="answers[${nextId}][is_right]">`,
-                    `<input type="text" name="answers[${nextId}][text]" placeholder="Answer">`
-                ).insertBefore($(this))
+                    `<input type="checkbox" name="answers[${nextId}][is_right]" label="Is the option a right one?">`,
+                    `<input type="text" name="answers[${nextId}][text]" placeholder="Answer option">`
+                ).appendTo(answerOptionsContainer)
 
                 nextId += 1
-            })
+            }
+
+            button.click(addAnswerVariant)
+            addAnswerVariant()
         })
     </script>
 {% endblock %}

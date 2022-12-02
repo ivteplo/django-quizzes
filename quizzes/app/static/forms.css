@@ -27,12 +27,12 @@ form > .error-alert {
     margin-bottom: 1rem;
 }
 
-.form-input-wrapper > label {
+.form-input-wrapper label {
     font-weight: 500; /* medium */
     margin-bottom: 0.25rem;
 }
 
-.form-input-wrapper > input {
+.form-input-wrapper input {
     padding: 0.5rem 1rem;
 
     border: 0.0625rem solid var(--divider);
@@ -62,4 +62,8 @@ form > button {
 .form-toggle-type > a {
     text-decoration: none;
     color: var(--primary);
+}
+
+form input[type="checkbox"] {
+    accent-color: var(--primary);
 }

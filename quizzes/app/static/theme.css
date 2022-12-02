@@ -18,7 +18,7 @@
 
 @supports (backdrop-filter: blur(1rem)) {
     :root {
-        --vibrant-background-opacity: 0.8;
+        --vibrant-background-opacity: 0.7;
     }
 }
 

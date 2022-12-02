@@ -1,9 +1,14 @@
 {# Copyright (c) 2022 Ivan Teplov #}
 {% extends 'layouts/main.html' %}
+{% load static %}
 
 {# TODO: show quiz name instead of just the word 'Quiz' #}
 {% block title %}
     {{ quiz.name }} | Quizzes
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'quiz/quiz.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -31,19 +36,24 @@
             <div>
                 <a href="{% url 'edit-quiz' quiz_url=quiz.url %}">Change information about the quiz</a>
             </div>
-            <div>
-                <a href="{% url 'add-quiz-question' quiz_url=quiz.url %}">Add a question to the quiz</a>
-            </div>
         {% endif %}
     </section>
 
     {# questions #}
-    <section class="column">
-        <ul>
+    <section class="column quiz-questions-section">
+        <div class="row section-title">
+            <h2>Questions</h2>
+
+            {% if quiz.creator == request.user %}
+                <div class="fill"></div>
+                <a class="button" href="{% url 'add-quiz-question' quiz_url=quiz.url %}">Add question</a>
+            {% endif %}
+        </div>
+        <ul class="columnn quiz-question-list">
             {% for question in quiz.questions.all %}
-                <li>
-                    <p>{{ question.text }}</p>
-                    <ul>
+                <li class="column quiz-question">
+                    <p class="quiz-question-prompt">{{ question.text }}</p>
+                    <ul class="column quiz-question-answer-variants">
                         {% for answer in question.answers.all %}
                             <li>{{ answer.text }}</li>
                         {% endfor %}

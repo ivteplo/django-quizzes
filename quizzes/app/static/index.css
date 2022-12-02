@@ -64,6 +64,7 @@ button,
     padding: 2rem 0;
 }
 
-section > h2 {
+section > h2,
+section > .section-title {
     margin-bottom: 1rem;
 }

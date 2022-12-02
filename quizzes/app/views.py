@@ -123,12 +123,11 @@ def add_quiz_question(request: HttpRequest, quiz_url: str):
     if quiz.creator != request.user:
         return redirect('quiz-page', quiz_url=quiz.url)
 
-    question_prompt, question_type, answers = None, None, []
+    question_prompt, answers = None, []
     error = None
 
     if request.method == 'POST':
         question_prompt = request.POST.get('question')
-        question_type_string = request.POST.get('question-type')
 
         try:
             answers = list(parse_dict_keys(request.POST)['answers'].values())
@@ -137,40 +136,27 @@ def add_quiz_question(request: HttpRequest, quiz_url: str):
         else:
             if not question_prompt:
                 error = 'Please, specify a question'
-            elif not question_type_string:
-                error = 'Please, choose a question type'
             elif len(answers) == 1:
                 error = 'Please, specify more answers'
             else:
-                try:
-                    question_type = int(question_type_string)
-                except ValueError:
-                    error = 'Invalid question type'
-                else:
-                    question = Question.objects.create(
-                        quiz=quiz,
-                        text=question_prompt,
-                        question_type=question_type
+                question = Question.objects.create(
+                    quiz=quiz,
+                    text=question_prompt
+                )
+
+                for answer in answers:
+                    Answer.objects.create(
+                        question=question,
+                        text=answer['text'],
+                        is_right=answer['is_right'] == 'on'
                     )
 
-                    for answer in answers:
-                        Answer.objects.create(
-                            question=question,
-                            text=answer['text'],
-                            is_right=answer['is_right'] == 'on'
-                        )
-
-                    return redirect(to='quiz-page', quiz_url=quiz.url)
+                return redirect(to='quiz-page', quiz_url=quiz.url)
 
     return render(request, 'quiz/add-question.html', {
         'quiz': quiz,
-        'question_types': [
-            {'id': id, 'text': text}
-            for id, text in Question.QUESTION_TYPE_CHOICES
-        ],
         'form': {
             'question': question_prompt,
-            'question_type': question_type,
             'answers': answers
         },
         'error': error

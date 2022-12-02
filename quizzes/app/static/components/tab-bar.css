@@ -40,3 +40,7 @@
 .tab-bar-link.current {
     color: var(--primary);
 }
+
+body > :last-child {
+    padding-bottom: 5rem;
+}

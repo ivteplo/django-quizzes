@@ -28,19 +28,10 @@ class Question(models.Model):
     class Meta:
         db_table = "quiz_questions"
 
-    MULTIPLE_CHOICE = 0
-    TEXT_INPUT = 1
-
-    QUESTION_TYPE_CHOICES = [
-        (MULTIPLE_CHOICE, 'Multiple choice question'),
-        (TEXT_INPUT, 'Question with text input')
-    ]
-
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
     text = models.CharField(max_length=255, null=False, validators=[
         MinLengthValidator(2, 'The question has to be at least two characters long')
     ])
-    question_type = models.IntegerField(choices=QUESTION_TYPE_CHOICES)
 
 
 class Answer(models.Model):

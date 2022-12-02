@@ -1,0 +1,21 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+.quiz-questions-section {
+    margin-top: 2rem;
+}
+
+.quiz-question {
+    background-color: var(--tinted-background);
+    border-radius: var(--corner-radius);
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.quiz-question-prompt {
+    font-weight: 500; /* medium */
+    margin-bottom: 0.25rem;
+}
+
+.quiz-question-answer-variants {
+    list-style-position: inside;
+}
