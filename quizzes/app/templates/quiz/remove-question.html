@@ -1,0 +1,45 @@
+{# Copyright (c) 2022 Ivan Teplov #}
+{% extends 'layouts/form.html' %}
+{% load reverse_url %}
+{% load static %}
+
+{% block title %}
+    Remove a question from the quiz | Quizzes
+{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'quiz/quiz.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% include 'components/back-button.html' %}
+    {% with question_id_str=question.id|stringformat:"s" %}
+        {% with url_params=question.quiz.url|add:","|add:question_id_str %}
+            {% with form_method="POST" form_action="remove-quiz-question"|reverse_url:url_params %}
+                {{ block.super }}
+            {% endwith %}
+        {% endwith %}
+    {% endwith %}
+{% endblock %}
+
+{% block form_body %}
+    <div class="form-title">
+        <h1>Remove question</h1>
+        <p>Are you sure you want to remove this question?</p>
+    </div>
+
+    <section class="quiz-section">
+        <div class="quiz-question">
+            <p class="quiz-question-prompt">{{ question.text }}</p>
+            <ul class="column quiz-question-answer-variants">
+                {% for answer in question.answers.all %}
+                    <li>{{ answer.text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <button type="submit">Yes, remove it</button>
+{% endblock %}
+

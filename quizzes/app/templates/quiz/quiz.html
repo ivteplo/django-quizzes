@@ -52,7 +52,13 @@
         <ul class="columnn quiz-question-list">
             {% for question in quiz.questions.all %}
                 <li class="column quiz-question">
-                    <p class="quiz-question-prompt">{{ question.text }}</p>
+                    <div class="row items-center">
+                        <p class="quiz-question-prompt">{{ question.text }}</p>
+                        {% if quiz.creator == request.user %}
+                            <div class="fill"></div>
+                            <a href="{% url 'remove-quiz-question' quiz_url=quiz.url question_id=question.id %}" class="button danger">Remove</a>
+                        {% endif %}
+                    </div>
                     <ul class="column quiz-question-answer-variants">
                         {% for answer in question.answers.all %}
                             <li>{{ answer.text }}</li>

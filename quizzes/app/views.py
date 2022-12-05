@@ -114,6 +114,7 @@ def edit_quiz(request: HttpRequest, quiz_url: str):
                   status=200 if not options['error'] else 400)
 
 
+@signed_in_only
 def add_quiz_question(request: HttpRequest, quiz_url: str):
     quiz = _get_quiz_by_url(quiz_url)
 
@@ -161,6 +162,22 @@ def add_quiz_question(request: HttpRequest, quiz_url: str):
         },
         'error': error
     }, status=200 if not error else 400)
+
+
+@signed_in_only
+def remove_quiz_question(request: HttpRequest, quiz_url: str, question_id: int):
+    question = get_object_or_404(Question, id=question_id)
+
+    if quiz_url != question.quiz.url:
+        raise Http404("Could not find the question in the quiz")
+
+    if request.method == "POST":
+        question.delete()
+        return redirect('quiz-page', quiz_url=quiz_url)
+
+    return render(request, 'quiz/remove-question.html', {
+        "question": question
+    })
 
 
 @not_signed_in_only
